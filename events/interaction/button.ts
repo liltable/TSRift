@@ -1,5 +1,6 @@
 import Event from "../../classes/Event.ts";
 import Rift from "../../classes/Rift.ts";
+import CacheType from "../../enum/Cache.ts";
 import {
   Events,
   ButtonInteraction,
@@ -30,19 +31,20 @@ export default class ButtonHandler extends Event {
       });
     }
 
-    const cachedMemberID = this.client.cache.get(interaction.message.id);
-
-    if (cachedMemberID && interaction.user.id !== cachedMemberID)
-      return interaction.reply({
-        embeds: [
-          new EmbedBuilder()
-            .setColor(Colors.Red)
-            .setDescription(
-              `> This button menu isn't for you!\n> It belongs to <@${cachedMemberID}>`
-            ),
-        ],
-        ephemeral: true,
-      });
+    const cache: string = this.client.cache.get(interaction.message.id);
+    if (cache) {
+      const cacheArgs = cache.split(":");
+      if (cacheArgs.length < 1) {
+        return interaction.reply({
+          embeds: [
+            new EmbedBuilder()
+              .setColor(Colors.Red)
+              .setDescription(`> This button menu does not belong to you!`),
+          ],
+          ephemeral: true,
+        });
+      }
+    }
 
     if (
       Button.permission &&

@@ -69,6 +69,16 @@ export default class Clean extends Command {
       reason: reason,
     };
 
+    if (amount > 100) {
+      return interaction.reply({
+        embeds: [
+          new EmbedBuilder()
+            .setColor(Colors.Red)
+            .setDescription(`> Message amount cannot exceed 100 messages!`),
+        ],
+        ephemeral: true,
+      });
+    }
     await interaction.reply({
       embeds: [
         new EmbedBuilder()
@@ -88,6 +98,9 @@ export default class Clean extends Command {
       ],
     });
 
-    return this.client.cache.set((await interaction.fetchReply()).id, Clean);
+    return this.client.cache.set(
+      ((await interaction.fetchReply()).id += `:clean`),
+      Clean
+    );
   }
 }

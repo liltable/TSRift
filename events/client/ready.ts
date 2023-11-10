@@ -59,7 +59,9 @@ export default class Ready extends Event {
         ),
       }
     );
-    console.log(`Loaded ${globalCommands.length} global commands.`);
+    console.log(
+      `Loaded ${globalCommands.length} global application (/) commands.`
+    );
 
     return console.log(
       `Logged in with account ${this.client.user?.tag} in ${

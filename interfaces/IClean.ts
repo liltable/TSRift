@@ -1,4 +1,4 @@
-import { GuildMember } from "npm:discord.js";
+import { TextBasedChannel, GuildMember } from "npm:discord.js";
 
 export default interface IClean {
   amount: number;
