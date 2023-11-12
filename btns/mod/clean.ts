@@ -39,10 +39,6 @@ export default class CleanButton extends Button {
         ],
         ephemeral: true,
       });
-
-      if (interaction.message.deletable) {
-        await interaction.message.delete();
-      }
     }
 
     let FilteredMessages: any[] = [];
@@ -120,6 +116,10 @@ export default class CleanButton extends Button {
         ),
       ],
     });
+
+    if (interaction.message.deletable) {
+      await interaction.message.delete();
+    }
 
     return this.client.cache.set(
       (await interaction.fetchReply()).id,

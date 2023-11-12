@@ -6,5 +6,4 @@ export default interface IManager {
   loadCommands(): void;
   loadDatabase(): void;
   loadButtons(): void;
-  forceImport?: any;
 }

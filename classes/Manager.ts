@@ -9,7 +9,6 @@ import Button from "./Button.ts";
 
 export default class Manager implements IManager {
   client: Rift;
-  forceImport: any;
   constructor(client: Rift) {
     this.client = client;
   }
