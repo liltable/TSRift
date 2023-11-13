@@ -5,4 +5,5 @@ export default interface IConfig {
   clientID?: string;
   devClientID?: string;
   homeGuild?: string;
+  errorChannel?: string;
 }

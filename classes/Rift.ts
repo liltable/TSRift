@@ -15,7 +15,6 @@ export default class Rift extends Client implements IRift {
   cooldowns: Collection<string, Collection<string, number>>;
   buttons: Collection<string, Button>;
   cache: Collection<string, any>;
-
   constructor() {
     super({ intents: 32767 });
 
