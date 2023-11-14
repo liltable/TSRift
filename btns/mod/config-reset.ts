@@ -25,7 +25,7 @@ export default class ResetConfigButton extends Button {
         embeds: [
           new EmbedBuilder()
             .setColor(Colors.Red)
-            .setDescription(`> This guild has no config set!`),
+            .setDescription(`> Guild configuration not found.`),
         ],
         ephemeral: true,
       });

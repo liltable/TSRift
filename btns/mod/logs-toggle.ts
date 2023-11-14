@@ -20,6 +20,16 @@ export default class ToggleLogsButton extends Button {
   async execute(interaction: ButtonInteraction) {
     const Config = await Storage.findOne({ guildID: interaction.guild!.id });
 
+    if (!Config)
+      return interaction.reply({
+        embeds: [
+          new EmbedBuilder()
+            .setColor(Colors.Red)
+            .setDescription(`> Guild configuration not found.`),
+        ],
+        ephemeral: true,
+      });
+
     const Toggle = Config!.logs!.enabled ? false : true;
 
     Config!.logs!.enabled = Toggle;

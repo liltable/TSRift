@@ -1,3 +1,4 @@
+// deno-lint-ignore-file
 import { Client, Collection } from "npm:discord.js";
 import IRift from "../interfaces/IRift.ts";
 import IConfig from "../interfaces/IConfig.ts";
