@@ -27,12 +27,12 @@ export default class SecretsCommand extends Command {
       cooldown: 30,
       default_member_permissions: PermissionFlagsBits.UseApplicationCommands,
       category: Category.Misc,
-      isDevCommand: true,
+      isDevCommand: false,
     });
   }
 
   execute(interaction: ChatInputCommandInteraction) {
-    let Keyword = interaction.options.getString("keyword", true);
+    const Keyword = interaction.options.getString("keyword", true);
 
     if (Keyword.includes("force")) {
       return interaction.reply({

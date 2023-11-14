@@ -1,6 +1,5 @@
 import Command from "../../classes/Command.ts";
 import Rift from "../../classes/Rift.ts";
-import Default from "../../enum/Default.ts";
 import {
   PermissionFlagsBits,
   ChatInputCommandInteraction,
@@ -47,10 +46,10 @@ export default class SetupCommand extends Command {
             new ButtonBuilder()
               .setLabel("Setup")
               .setStyle(ButtonStyle.Success)
-              .setCustomId("configSetup"),
-            Default.ExitButton
+              .setCustomId("configSetup")
           ),
         ],
+        ephemeral: true,
       });
     } else {
       return interaction.reply({
@@ -76,9 +75,15 @@ export default class SetupCommand extends Command {
               .setCustomId("configReset")
               .setLabel("Reset")
               .setStyle(ButtonStyle.Danger),
-            Default.ExitButton
+            new ButtonBuilder()
+              .setLabel(Config.logs!.enabled ? "Disable" : "Enable")
+              .setStyle(
+                Config.logs!.enabled ? ButtonStyle.Danger : ButtonStyle.Success
+              )
+              .setCustomId("toggleLogs")
           ),
         ],
+        ephemeral: true,
       });
     }
   }

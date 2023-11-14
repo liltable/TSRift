@@ -32,19 +32,18 @@ export default class ResetConfigButton extends Button {
     } else {
       await Storage.findOneAndDelete({
         guildID: interaction.guild!.id,
-      })
-        .then(() => {
-          return interaction.reply({
-            embeds: [
-              new EmbedBuilder()
-                .setColor(Colors.Green)
-                .setDescription(
-                  `> Successfully reset this guild's Rift configuration.`
-                ),
-            ],
-          });
-        })
-        .catch((err) => console.log(err));
+      }).then(async () => {
+        await interaction.reply({
+          embeds: [
+            new EmbedBuilder()
+              .setColor(Colors.Green)
+              .setDescription(
+                `> Successfully reset this guild's Rift configuration.`
+              ),
+          ],
+          ephemeral: true,
+        });
+      });
     }
   }
 }

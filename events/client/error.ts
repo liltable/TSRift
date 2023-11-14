@@ -29,9 +29,7 @@ export default class Error extends Event {
     const ErrorEmbed = new EmbedBuilder()
       .setColor(Colors.Red)
       .setTitle(`${this.client.user!.username} | Error`)
-      .setDescription(
-        `Name: \n\`${err.name}\`\n Description:\n\`${err.description}\`\nFull Error: ${err}`
-      );
+      .setDescription(`Error: \`${err.name}\`\nStack:\n \`${err}\``);
 
     await errChannel
       .send({ embeds: [ErrorEmbed] })
