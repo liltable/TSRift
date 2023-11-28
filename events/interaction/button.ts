@@ -1,6 +1,5 @@
 import Event from "../../classes/Event.ts";
 import Rift from "../../classes/Rift.ts";
-import CacheType from "../../enum/Cache.ts";
 import {
   Events,
   ButtonInteraction,
@@ -17,7 +16,7 @@ export default class ButtonHandler extends Event {
     });
   }
 
-  async execute(interaction: ButtonInteraction) {
+  execute(interaction: ButtonInteraction) {
     if (!interaction.isButton()) return;
     const Button = this.client.buttons.get(interaction.customId)!;
     if (!Button) {

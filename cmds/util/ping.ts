@@ -24,7 +24,7 @@ export default class Ping extends Command {
     });
   }
 
-  async execute(interaction: ChatInputCommandInteraction) {
+  execute(interaction: ChatInputCommandInteraction) {
     const now = Date.now();
 
     interaction

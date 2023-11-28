@@ -15,7 +15,7 @@ export default class Manager implements IManager {
 
   private async loadFiles(dirName: string) {
     const pg = promisify(glob);
-    let Files: string[] = await pg(`${Deno.cwd()}/${dirName}/**/*.ts`);
+    const Files: string[] = await pg(`${Deno.cwd()}/${dirName}/**/*.ts`);
     return Files;
   }
 
