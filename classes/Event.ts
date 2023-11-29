@@ -5,7 +5,7 @@ import IEventOptions from "../interfaces/IEventOptions.ts";
 
 export default class Event implements IEvent {
   client: Rift;
-  name: string;
+  name: Events;
   once: boolean;
   description?: string | undefined;
   constructor(client: Rift, options: IEventOptions) {

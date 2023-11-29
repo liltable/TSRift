@@ -29,11 +29,11 @@ export default class Manager implements IManager {
         return console.log(`${path.split("/").pop()} does not have a name!`);
       }
       const execute = (...args: any) => event.execute(...args);
-      //@ts-ignore deez nutz
+
       if (event.once) {
-        this.client.once(event.name, execute);
+        this.client.once(event.name.toString(), execute);
       } else {
-        this.client.on(event.name, execute);
+        this.client.on(event.name.toString(), execute);
       }
     });
     return console.log(`Loaded ${Files.length} client event(s).`);
