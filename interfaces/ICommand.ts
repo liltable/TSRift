@@ -1,5 +1,6 @@
 import Rift from "../classes/Rift.ts";
 import Category from "../enum/Category.ts";
+import ICommandOptionOptions from "./ICommandOptionOptions.ts";
 
 export default interface ICommand {
   client: Rift;

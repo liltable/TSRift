@@ -1,4 +1,5 @@
 import IInventoryItem from "./IInventoryItem.ts";
+import PlayerStatus from "../enum/PlayerStatus.ts";
 
 export default interface IPlayer {
   id: string;
@@ -6,4 +7,5 @@ export default interface IPlayer {
   level: number | 1;
   skillPoints: number | 0;
   inventory: IInventoryItem[];
+  status: PlayerStatus;
 }

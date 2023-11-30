@@ -7,4 +7,5 @@ export default interface IInventoryItem {
   amount: number | 1;
   type: ItemType;
   class: IItemTier | IItemTier.Basic;
+  equipped: boolean | false;
 }

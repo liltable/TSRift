@@ -1,7 +1,7 @@
 enum Category {
   Dev = "Development",
   Util = "Utilities",
-  Mod = "Moderation",
+  Game = "Game",
   Misc = "Miscellanious",
 }
 
