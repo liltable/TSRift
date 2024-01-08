@@ -41,16 +41,17 @@ export default class Rift extends Client implements IRift {
       ░      ░                   `);
     await this.login(
       this.devMode ? this.config.devToken! : this.config.token!
-    ).then(() => {
+    ).then(async () => {
       console.log(`Connecting to Discord...`);
-      this.load();
+      await this.load();
     });
   }
 
-  load() {
-    this.manager.loadEvents();
-    this.manager.loadCommands();
-    this.manager.loadDatabase();
-    this.manager.loadButtons();
+  async load() {
+    await this.manager.loadEvents();
+    await this.manager.loadCommands();
+    await this.manager.loadDatabase();
+    await this.manager.loadButtons();
+    console.log(`MANAGER: :: Completed initialization.`);
   }
 }
