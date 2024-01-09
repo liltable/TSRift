@@ -1,0 +1,66 @@
+import {
+  ApplicationCommandOptionType,
+  AutocompleteInteraction,
+  ChatInputCommandInteraction,
+  PermissionFlagsBits,
+} from "npm:discord.js";
+import Command from "../../classes/Command.ts";
+import Rift from "../../classes/Rift.ts";
+import Category from "../../enum/Category.ts";
+
+export default class Help extends Command {
+  constructor(client: Rift) {
+    super(client, {
+      name: "help",
+      description: "Returns information about every command.",
+      category: Category.Util,
+      options: [
+        {
+          name: "command",
+          description: "Specify a command to receive in-depth info about.",
+          required: false,
+          autocomplete: true,
+          type: ApplicationCommandOptionType.String,
+        },
+      ],
+      cooldown: 10,
+      isDevCommand: false,
+      default_member_permissions: PermissionFlagsBits.UseApplicationCommands,
+      dm_permission: false,
+    });
+  }
+  autocomplete(interaction: AutocompleteInteraction) {
+    const choices: { name: string; value: string }[] = [];
+    this.client.commands
+      .filter((cmd) => !cmd.isDevCommand)
+      .forEach((cmd) =>
+        choices.push({
+          name: `${cmd.category} :: ${cmd.name}`,
+          value: cmd.name,
+        })
+      );
+
+    const focused = interaction.options.getFocused().toLowerCase();
+    const filtered = choices.filter((choice) =>
+      choice.value.startsWith(focused)
+    );
+
+    return interaction.respond(filtered);
+  }
+  execute(interaction: ChatInputCommandInteraction) {
+    const detailedCMD = interaction.options.getString("command");
+
+    switch (!detailedCMD) {
+      //no selected detailed command, return giant help embed
+      case true:
+        {
+        }
+        break;
+      //detailed command selected, return specific info about that command
+      case false:
+        {
+        }
+        break;
+    }
+  }
+}

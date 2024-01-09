@@ -1,39 +1,41 @@
-import Command from "../../classes/Command.ts";
-import Rift from "../../classes/Rift.ts";
-import Category from "../../enum/Category.ts";
 import {
   ChatInputCommandInteraction,
   PermissionFlagsBits,
   EmbedBuilder,
   Colors,
 } from "npm:discord.js";
+import Command from "../../classes/Command.ts";
+import Rift from "../../classes/Rift.ts";
+import Category from "../../enum/Category.ts";
 
 export default class Ping extends Command {
   constructor(client: Rift) {
     super(client, {
       name: "ping",
-      description: "Returns the websocket information of the client.",
-      default_member_permissions: PermissionFlagsBits.UseApplicationCommands,
-      category: Category.Dev,
-      cooldown: 3,
+      description:
+        "Returns info about the client's connection to the Discord API.",
       options: [],
+      cooldown: 3,
+      category: Category.Util,
       dm_permission: false,
-      isDevCommand: true,
+      isDevCommand: false,
+      default_member_permissions: PermissionFlagsBits.UseApplicationCommands,
     });
   }
 
   execute(interaction: ChatInputCommandInteraction) {
+    const ping =
+      this.client.ws.ping > 1 ? "`Unavailable...`" : this.client.ws.ping;
+
     return interaction.reply({
       embeds: [
-        new EmbedBuilder()
-          .setColor(Colors.Red)
-          .setTitle(`${this.client.user!.username} | Latency`)
-          .setDescription(
-            `:satellite: API Latency: \`${
-              this.client.ws.ping > 1 ? `Unavailable...` : this.client.ws.ping
-            }\``
-          ),
+        new EmbedBuilder({
+          title: `${this.client.user!.username} | Latency`,
+          description: `> :satellite: API Latency: ${ping}`,
+          color: Colors.Blue,
+        }),
       ],
+      ephemeral: true,
     });
   }
 }

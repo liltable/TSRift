@@ -21,6 +21,6 @@ export default class Emit extends Command {
   }
 
   execute(interaction: ChatInputCommandInteraction) {
-    interaction;
+    return interaction.reply("nuh uh!");
   }
 }

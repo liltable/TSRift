@@ -2,7 +2,10 @@ import Category from "../enum/Category.ts";
 import ICommand from "../interfaces/ICommand.ts";
 import Rift from "./Rift.ts";
 import ICommandOptions from "../interfaces/ICommandOptions.ts";
-import { ChatInputCommandInteraction } from "npm:discord.js";
+import {
+  ChatInputCommandInteraction,
+  AutocompleteInteraction,
+} from "npm:discord.js";
 
 export default class Command implements ICommand {
   client: Rift;
@@ -28,5 +31,5 @@ export default class Command implements ICommand {
   }
 
   execute(interaction: ChatInputCommandInteraction): void {}
-  autocomplete(interaction: ChatInputCommandInteraction): void {}
+  autocomplete(interaction: AutocompleteInteraction): void {}
 }
