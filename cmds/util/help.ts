@@ -54,42 +54,51 @@ export default class Help extends Command {
 
     switch (!detailedCMD) {
       //no selected detailed command, return giant help embed
-      case true:
-        {
-          const cmdList = this.client.commands.map(
-            (cmd) => `> **${cmd.name}** | *${cmd.description}*`
-          );
+      case true: {
+        const cmdList = this.client.commands.map(
+          (cmd) => `> **${cmd.name}** | *${cmd.description}*`
+        );
 
-          const HelpEmbed = new EmbedBuilder({
-            title: `${this.client.user!.username} | Help`,
-            color: Colors.White,
-            description: `> ${cmdList.join(`\n`).toString()}`,
-          });
+        const HelpEmbed = new EmbedBuilder({
+          title: `${this.client.user!.username} | Help`,
+          color: Colors.White,
+          description: `> ${cmdList.join(`\n`).toString()}`,
+        });
 
-          return interaction.reply({ embeds: [HelpEmbed], ephemeral: true });
-        }
-        break;
+        return interaction.reply({ embeds: [HelpEmbed], ephemeral: true });
+      }
       //detailed command selected, return specific info about that command
-      case false:
-        {
-          const cmd = this.client.commands.get(detailedCMD!);
+      case false: {
+        const cmd = this.client.commands.get(detailedCMD!);
 
-          if (!cmd)
-            return interaction.reply({
-              content:
-                "This command is outdated.., please wait for the bot to update.",
-              ephemeral: true,
-            });
-
-          const HelpEmbed = new EmbedBuilder({
-            title: `Help | ${cmd.name}`,
-            color: Colors.White,
-            description: `*${cmd.description}*`,
+        if (!cmd)
+          return interaction.reply({
+            content:
+              "This command is outdated, please wait for the bot to update.",
+            ephemeral: true,
           });
 
-          return interaction.reply({ embeds: [HelpEmbed], ephemeral: true });
-        }
-        break;
+        const opDesc =
+          cmd.options.length > 0
+            ? `${cmd.options
+                .map(
+                  (op) =>
+                    `> *${op.name}* | ${op.description} (${
+                      op.required ? `**requrired**` : `optional`
+                    })`
+                )
+                .join(`\n`)
+                .toString()}`
+            : ``;
+
+        const HelpEmbed = new EmbedBuilder({
+          title: `Help | ${cmd.name} (${cmd.category})`,
+          color: Colors.White,
+          description: `*${cmd.description}*\n\n${opDesc}`,
+        });
+
+        return interaction.reply({ embeds: [HelpEmbed], ephemeral: true });
+      }
     }
   }
 }

@@ -7,7 +7,7 @@ export default class Button implements IButton {
   client: Rift;
   id: string;
   name: string;
-  description?: string | undefined;
+  description?: string;
   permission: bigint;
   constructor(client: Rift, options: IButtonOptions) {
     this.client = client;

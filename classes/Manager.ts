@@ -36,7 +36,7 @@ export default class Manager implements IManager {
         this.client.on(event.name.toString(), execute);
       }
     });
-    return console.log(` | EVENTS :: Loaded ${Files.length} client event(s).`);
+    return console.log(`| EVENTS :: Loaded ${Files.length} client event(s).`);
   }
 
   async loadCommands() {
@@ -74,12 +74,12 @@ export default class Manager implements IManager {
       this.client.buttons.set(button.id, button);
       count++;
     });
-    return console.log(` | BUTTONS :: Loaded ${count} client buttons.`);
+    return console.log(`| :: Loaded ${count} client buttons.`);
   }
 
   async loadDatabase() {
     await connect(this.client.config.database!)
-      .then(() => console.log(` | STORAGE :: Connected to MongoDB.`))
-      .catch(() => console.log(` | STORAGE :: Failed to connect to MongoDB.`));
+      .then(() => console.log(`| :: Connected to MongoDB.`))
+      .catch(() => console.log(`| :: Failed to connect to MongoDB.`));
   }
 }

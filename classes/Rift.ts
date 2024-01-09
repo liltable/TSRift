@@ -52,6 +52,6 @@ export default class Rift extends Client implements IRift {
     await this.manager.loadCommands();
     await this.manager.loadDatabase();
     await this.manager.loadButtons();
-    console.log(`MANAGER: :: Completed initialization.`);
+    console.log(`MANAGER :: Completed initialization.`);
   }
 }

@@ -7,7 +7,7 @@ export default class Event implements IEvent {
   client: Rift;
   name: Events;
   once: boolean;
-  description?: string | undefined;
+  description?: string;
   constructor(client: Rift, options: IEventOptions) {
     this.client = client;
     this.name = options.name;
