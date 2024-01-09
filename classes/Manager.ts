@@ -36,7 +36,7 @@ export default class Manager implements IManager {
         this.client.on(event.name.toString(), execute);
       }
     });
-    return console.log(`Loaded ${Files.length} client event(s).`);
+    return console.log(` | EVENTS :: Loaded ${Files.length} client event(s).`);
   }
 
   async loadCommands() {
@@ -44,9 +44,10 @@ export default class Manager implements IManager {
 
     this.client.application?.commands.cache.clear();
     this.client.commands.clear();
-    this.client.guilds.cache
-      .get(this.client.config.homeGuild!)
-      ?.commands.cache.clear();
+    const homeGuild = this.client.guilds.cache.get(
+      this.client.config.homeGuild!
+    )!;
+    homeGuild.commands.cache.clear();
 
     Files.forEach(async (path: string) => {
       const pseudofile = await import(`file://${path}`);
@@ -61,6 +62,7 @@ export default class Manager implements IManager {
 
   async loadButtons() {
     const Files: string[] = await this.loadFiles("btns");
+    let count = 0;
     Files.forEach(async (path: string) => {
       const pseudofile = await import(`file://${path}`);
       const button: Button = new pseudofile.default(this.client);
@@ -70,12 +72,14 @@ export default class Manager implements IManager {
       }
 
       this.client.buttons.set(button.id, button);
+      count++;
     });
+    return console.log(` | BUTTONS :: Loaded ${count} client buttons.`);
   }
 
   async loadDatabase() {
     await connect(this.client.config.database!)
-      .then(() => console.log(`Connected to MongoDB.`))
-      .catch((err) => console.log(err));
+      .then(() => console.log(` | STORAGE :: Connected to MongoDB.`))
+      .catch(() => console.log(` | STORAGE :: Failed to connect to MongoDB.`));
   }
 }

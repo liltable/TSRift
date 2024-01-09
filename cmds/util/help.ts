@@ -3,6 +3,8 @@ import {
   AutocompleteInteraction,
   ChatInputCommandInteraction,
   PermissionFlagsBits,
+  EmbedBuilder,
+  Colors,
 } from "npm:discord.js";
 import Command from "../../classes/Command.ts";
 import Rift from "../../classes/Rift.ts";
@@ -54,11 +56,38 @@ export default class Help extends Command {
       //no selected detailed command, return giant help embed
       case true:
         {
+          const cmdList = this.client.commands.map(
+            (cmd) => `> **${cmd.name}** | *${cmd.description}*`
+          );
+
+          const HelpEmbed = new EmbedBuilder({
+            title: `${this.client.user!.username} | Help`,
+            color: Colors.White,
+            description: `> ${cmdList.join(`\n`).toString()}`,
+          });
+
+          return interaction.reply({ embeds: [HelpEmbed], ephemeral: true });
         }
         break;
       //detailed command selected, return specific info about that command
       case false:
         {
+          const cmd = this.client.commands.get(detailedCMD!);
+
+          if (!cmd)
+            return interaction.reply({
+              content:
+                "This command is outdated.., please wait for the bot to update.",
+              ephemeral: true,
+            });
+
+          const HelpEmbed = new EmbedBuilder({
+            title: `Help | ${cmd.name}`,
+            color: Colors.White,
+            description: `*${cmd.description}*`,
+          });
+
+          return interaction.reply({ embeds: [HelpEmbed], ephemeral: true });
         }
         break;
     }
