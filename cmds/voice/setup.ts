@@ -39,7 +39,7 @@ export default class SetupTempVCs extends Command {
       default_member_permissions: PermissionFlagsBits.ManageChannels,
       dm_permission: false,
       cooldown: 30,
-      isDevCommand: false,
+      isDevCommand: true,
     });
   }
   autocomplete(interaction: AutocompleteInteraction) {

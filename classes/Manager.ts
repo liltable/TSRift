@@ -36,7 +36,7 @@ export default class Manager implements IManager {
         this.client.on(event.name.toString(), execute);
       }
     });
-    return console.log(`| EVENTS :: Loaded ${Files.length} client event(s).`);
+    return console.log(`| :: Loaded ${Files.length} client event(s).`);
   }
 
   async loadCommands() {

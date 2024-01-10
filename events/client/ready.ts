@@ -47,7 +47,7 @@ export default class Ready extends Event {
       );
 
       console.log(
-        `Loaded ${devCommands.length} developer application (/) commands.`
+        `| :: Loaded ${devCommands.length} developer application (/) commands.`
       );
     }
 
@@ -60,11 +60,11 @@ export default class Ready extends Event {
       }
     );
     console.log(
-      `Loaded ${globalCommands.length} global application (/) commands.`
+      `| :: Loaded ${globalCommands.length} global application (/) commands.`
     );
 
     return console.log(
-      `Logged in with account ${this.client.user?.tag} in ${
+      `| :: Logged in with account ${this.client.user?.tag} in ${
         this.client.devMode ? "development" : "release"
       } mode.`
     );
