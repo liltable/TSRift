@@ -83,7 +83,7 @@ export default class Help extends Command {
             ? `${cmd.options
                 .map(
                   (op) =>
-                    `> *${op.name}* | ${op.description} (${
+                    `> **${op.name}** | ${op.description} (${
                       op.required ? `**requrired**` : `optional`
                     })`
                 )

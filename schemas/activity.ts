@@ -1,7 +1,7 @@
 import { model, Schema } from "npm:mongoose";
 
-export const VCActivity = model(
-  "vc activity",
+export const TempVCConfig = model(
+  "vc config",
   new Schema({
     GuildID: {
       type: String,

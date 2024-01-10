@@ -1,6 +1,6 @@
 import { ButtonBuilder, ButtonStyle } from "npm:discord.js";
 
-const Default: any = {
+const Default = {
   ExitButton: new ButtonBuilder()
     .setCustomId("exit")
     .setLabel("Exit")

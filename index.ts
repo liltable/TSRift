@@ -1,3 +1,4 @@
 import Rift from "./classes/Rift.ts";
 
-new Rift().init();
+const rift = new Rift();
+rift.init();
