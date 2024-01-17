@@ -16,12 +16,9 @@ export default class Manager implements IManager {
 
   private async loadFiles(dirName: string) {
     const pg = promisify(glob);
-    const require = createRequire(import.meta.url);
     const Files: string[] = await pg(
       `${Deno.cwd().replace(/\\/g, "/")}/${dirName}/**/*.ts`
     );
-    Files.forEach((file) => delete require.cache[require.resolve(file)]);
-
     return Files;
   }
 
