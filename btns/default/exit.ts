@@ -16,7 +16,7 @@ export default class Exit extends Button {
     });
   }
 
-  async execute(interaction: ButtonInteraction<CacheType>) {
+  async execute(interaction: ButtonInteraction) {
     if (interaction.message.partial) await interaction.message.fetch();
 
     if (interaction.message.deletable) return interaction.message.delete();

@@ -15,7 +15,9 @@ export default class Manager implements IManager {
 
   private async loadFiles(dirName: string) {
     const pg = promisify(glob);
-    const Files: string[] = await pg(`${Deno.cwd()}/${dirName}/**/*.ts`);
+    const Files: string[] = await pg(
+      `${Deno.cwd().replace(/\\/g, "/")}/${dirName}/**/*.ts`
+    );
     return Files;
   }
 
@@ -39,7 +41,7 @@ export default class Manager implements IManager {
     return console.log(`| :: Loaded ${Files.length} client event(s).`);
   }
 
-  async loadCommands() {
+  async loadCommands(reload?: boolean) {
     const Files: string[] = await this.loadFiles("cmds");
 
     this.client.application?.commands.cache.clear();
@@ -58,6 +60,11 @@ export default class Manager implements IManager {
 
       this.client.commands.set(command.name, command);
     });
+
+    if (reload)
+      return console.log(
+        `| :: Client commands reloaded per administrator request.`
+      );
   }
 
   async loadButtons() {

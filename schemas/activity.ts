@@ -9,7 +9,7 @@ export const TempVCConfig = model(
     },
     JoinChannelID: {
       type: String,
-      required: true,
+      required: false,
     },
     JoinChannelParent: {
       type: String,

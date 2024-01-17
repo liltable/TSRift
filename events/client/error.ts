@@ -16,23 +16,26 @@ export default class Error extends Event {
   }
 
   async execute(err: Error) {
-    console.log(err);
-
     const errChannel = (await this.client.channels.fetch(
       this.client.config.errorChannel!
     )) as GuildTextBasedChannel;
-    if (!errChannel)
+    if (!errChannel) {
+      console.log(err);
       return console.log(
         `Failed to notify to Discord: error channel not found.`
       );
+    }
 
     const ErrorEmbed = new EmbedBuilder()
       .setColor(Colors.Red)
       .setTitle(`${this.client.user!.username} | Error`)
-      .setDescription(`Error: \`${err.name}\`\nStack:\n \`${err}\``);
+      .setDescription(
+        `Error: \`\`\`js${err.name}\`\`\`\nStack:\n \`\`\`js\n${err}\`\`\``
+      )
+      .setTimestamp();
 
     await errChannel
       .send({ embeds: [ErrorEmbed] })
-      .then(() => console.log(`Notified error to Discord.`));
+      .then(() => console.log(`| ERROR :: Notified error to Discord.`));
   }
 }
