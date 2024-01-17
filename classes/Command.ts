@@ -31,6 +31,6 @@ export default class Command implements ICommand {
     this.isDevCommand = options.isDevCommand;
   }
 
-  execute(interaction: ChatInputCommandInteraction): void {}
-  autocomplete(interaction: AutocompleteInteraction): void {}
+  execute(interaction: ChatInputCommandInteraction) {}
+  autocomplete(interaction: AutocompleteInteraction) {}
 }

@@ -6,6 +6,7 @@ import Rift from "./Rift.ts";
 import Command from "./Command.ts";
 import { connect } from "npm:mongoose";
 import Button from "./Button.ts";
+import { createRequire } from "node:module";
 
 export default class Manager implements IManager {
   client: Rift;
@@ -15,9 +16,12 @@ export default class Manager implements IManager {
 
   private async loadFiles(dirName: string) {
     const pg = promisify(glob);
+    const require = createRequire(import.meta.url);
     const Files: string[] = await pg(
       `${Deno.cwd().replace(/\\/g, "/")}/${dirName}/**/*.ts`
     );
+    Files.forEach((file) => delete require.cache[require.resolve(file)]);
+
     return Files;
   }
 

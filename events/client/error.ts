@@ -7,7 +7,7 @@ import {
 } from "npm:discord.js";
 import Rift from "../../classes/Rift.ts";
 
-export default class Error extends Event {
+export default class ErrorEvent extends Event {
   constructor(client: Rift) {
     super(client, {
       name: Events.Error,
@@ -30,7 +30,7 @@ export default class Error extends Event {
       .setColor(Colors.Red)
       .setTitle(`${this.client.user!.username} | Error`)
       .setDescription(
-        `Error: \`\`\`js${err.name}\`\`\`\nStack:\n \`\`\`js\n${err}\`\`\``
+        `Error: \`\`\`js${err.message}\`\`\`\nStack:\n \`\`\`js\n${err.stack}\`\`\``
       )
       .setTimestamp();
 
