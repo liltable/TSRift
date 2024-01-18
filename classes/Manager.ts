@@ -6,7 +6,6 @@ import Rift from "./Rift.ts";
 import Command from "./Command.ts";
 import { connect } from "npm:mongoose";
 import Button from "./Button.ts";
-import { createRequire } from "node:module";
 
 export default class Manager implements IManager {
   client: Rift;
@@ -88,6 +87,10 @@ export default class Manager implements IManager {
   async loadDatabase() {
     await connect(this.client.config.database!)
       .then(() => console.log(`| :: Connected to MongoDB.`))
-      .catch(() => console.log(`| :: Failed to connect to MongoDB.`));
+      .catch(() =>
+        console.log(
+          `| :: Failed to connect to MongoDB (connection probably timed out).`
+        )
+      );
   }
 }

@@ -10,6 +10,7 @@ export default interface IRift {
   manager: IManager;
   commands: Collection<string, Command>;
   cooldowns: Collection<string, Collection<string, number>>;
+  voiceManager: Collection<string, string | null>;
   buttons?: Collection<string, Button>;
   cache?: Collection<string, any>;
 }

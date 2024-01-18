@@ -16,6 +16,7 @@ export default class Rift extends Client implements IRift {
   cooldowns: Collection<string, Collection<string, number>>;
   buttons: Collection<string, Button>;
   cache: Collection<string, any>;
+  voiceManager: Collection<string, string | null>;
   constructor() {
     super({ intents: 32767 });
 
@@ -26,6 +27,7 @@ export default class Rift extends Client implements IRift {
     this.cooldowns = new Collection();
     this.buttons = new Collection();
     this.cache = new Collection();
+    this.voiceManager = new Collection();
   }
 
   async init() {

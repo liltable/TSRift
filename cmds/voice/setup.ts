@@ -3,11 +3,11 @@ import {
   AutocompleteInteraction,
   ChannelType,
   ChatInputCommandInteraction,
-  Guild,
+  GuildMember,
   PermissionFlagsBits,
-  CategoryChannel,
   EmbedBuilder,
   Colors,
+  Guild,
 } from "npm:discord.js";
 import Command from "../../classes/Command.ts";
 import Rift from "../../classes/Rift.ts";
@@ -17,9 +17,8 @@ import { TempVCConfig } from "../../schemas/activity.ts";
 export default class SetupTempVCs extends Command {
   constructor(client: Rift) {
     super(client, {
-      name: "setup",
-      description:
-        "Automatically sets up temporary voice channels under a Rift-managed category channel.",
+      name: "config",
+      description: "Setup how Rift manages your temporary voice channels.",
       options: [
         {
           name: "parent",
@@ -81,68 +80,60 @@ export default class SetupTempVCs extends Command {
     return interaction.respond(filtered);
   }
   async execute(interaction: ChatInputCommandInteraction) {
-    const guild = interaction.guild! as Guild;
-    let GuildConfig = await TempVCConfig.findOne({
-      GuildID: guild.id,
-    });
+    const member = interaction.member as GuildMember;
+    const embedDescription: string[] = [];
+    let GuildConfig = await TempVCConfig.findOne({ GuildID: member.guild.id });
 
     if (!GuildConfig)
+      //if there isn't one, create a filler one that we can actively update on the fly.
       GuildConfig = await TempVCConfig.create({
-        GuildID: guild.id,
-        JoinChannelID: interaction.options.getString("channel") || null,
-        JoinChannelParent: interaction.options.getString("parent") || null,
+        GuildID: member.guild.id,
+        JoinChannelID: null,
+        JoinChannelParent: null,
       });
 
-    if (!GuildConfig.JoinChannelParent) {
-      const createdParent = await guild.channels.create({
-        name: "Temporary VCs",
-        type: ChannelType.GuildCategory,
-      });
+    const parentToSet = interaction.options.getString("parent");
+    const channelToSet = interaction.options.getString("channel");
 
-      GuildConfig.JoinChannelParent = createdParent.id;
-    } else {
-      GuildConfig.JoinChannelParent = interaction.options.getString("parent");
+    if (parentToSet) {
+      GuildConfig.JoinChannelParent = parentToSet;
     }
 
-    if (!GuildConfig.JoinChannelID) {
-      const parent = guild.channels.cache.get(
-        GuildConfig.JoinChannelParent!
-      ) as CategoryChannel;
-
-      if (!parent)
-        return interaction.reply({
-          embeds: [
-            new EmbedBuilder({
-              title: `${this.client!.user!.username} | Error`,
-              color: Colors.Red,
-              description: `> To automatically setup temporary voice channels, the Join to Create channel needs a parent category.`,
-            }),
-          ],
-          ephemeral: true,
-        });
-
-      const createdChannel = await guild.channels.create({
-        name: "Join to Create",
-        type: ChannelType.GuildVoice,
-        parent: parent,
-      });
-
-      GuildConfig.JoinChannelID = createdChannel.id;
-    } else {
-      GuildConfig.JoinChannelID = interaction.options.getString("channel");
+    if (channelToSet) {
+      GuildConfig.JoinChannelID = channelToSet;
     }
 
-    await GuildConfig.save();
+    try {
+      await GuildConfig.save();
+    } catch (err) {
+      return interaction.reply({
+        embeds: [
+          new EmbedBuilder({
+            title: `Voice | Error`,
+            description: `An error has occured. Your server config hasn't been updated.`,
+            color: Colors.Red,
+          }),
+        ],
+      });
+    }
+
+    embedDescription.push(
+      `> Your join channel is <#${GuildConfig.JoinChannelParent}>`
+    );
+    embedDescription.push(
+      `> Your join channel parent is <#${GuildConfig.JoinChannelID}>`
+    );
 
     return interaction.reply({
       embeds: [
         new EmbedBuilder({
           title: `Voice | Setup`,
-          color: Colors.Red,
-          description: `> :white_check_mark: Successfully setup temporary voice channels in this guild.\n> Channel: <#${GuildConfig.JoinChannelID}> | Category: <#${GuildConfig.JoinChannelParent}>`,
+          description: `> :white_check_mark: Successfully updated your server config!\n${embedDescription
+            .join(`\n`)
+            .toString()}`,
+          color: Colors.Green,
         }),
       ],
-      ephemeral: true,
     });
   }
 }
