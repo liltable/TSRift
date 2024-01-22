@@ -18,6 +18,7 @@ export default class Command implements ICommand {
   dm_permission: boolean;
   cooldown: number;
   isDevCommand: boolean;
+  requiresVoice: boolean;
 
   constructor(client: Rift, options: ICommandOptions) {
     this.client = client;
@@ -29,6 +30,7 @@ export default class Command implements ICommand {
     this.dm_permission = options.dm_permission;
     this.cooldown = options.cooldown;
     this.isDevCommand = options.isDevCommand;
+    this.requiresVoice = options.requiresVoice || false;
   }
 
   execute(interaction: ChatInputCommandInteraction) {}

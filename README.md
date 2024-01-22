@@ -1,2 +1,3 @@
 # TSRift
-TSRift is Rift reimagined in Typescript paired with Deno.
+
+An WIP bot for managing temporary voice channels for you and your friends in Discord.

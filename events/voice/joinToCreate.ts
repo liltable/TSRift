@@ -16,7 +16,7 @@ export default class JoinToCreate extends Event {
     const oldChannel = oldState.channel;
     const newChannel = newState.channel;
     const guildConfig = await TempVCConfig.findOne({ GuildID: guild.id });
-    if (!guildConfig) return;
+    if (!guildConfig || !guildConfig.Enabled) return;
     const joinToCreate = guildConfig.JoinChannelID;
     if (!joinToCreate) return;
 

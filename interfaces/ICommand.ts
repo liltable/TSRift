@@ -12,4 +12,5 @@ export default interface ICommand {
   dm_permission: boolean;
   cooldown: number;
   isDevCommand: boolean;
+  requiresVoice: boolean;
 }

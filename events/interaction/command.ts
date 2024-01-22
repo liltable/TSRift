@@ -4,6 +4,7 @@ import {
   EmbedBuilder,
   Colors,
   Collection,
+  GuildMember,
 } from "npm:discord.js";
 import Event from "../../classes/Event.ts";
 import Rift from "../../classes/Rift.ts";
@@ -48,6 +49,22 @@ export default class CommandHandler extends Event {
       });
 
       return interaction.guild?.commands.cache.delete(interaction.commandName);
+    }
+
+    if (
+      Command.requiresVoice &&
+      !(interaction.member as GuildMember).voice.channel
+    ) {
+      return interaction.reply({
+        embeds: [
+          new EmbedBuilder({
+            title: `${this.client.user!.username} | Error`,
+            color: Colors.Red,
+            description: `> :no_entry_sign: You need to be in a voice channel to use this command!`,
+          }),
+        ],
+        ephemeral: true,
+      });
     }
 
     const { cooldowns } = this.client;

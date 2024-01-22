@@ -7,6 +7,11 @@ export const TempVCConfig = model(
       type: String,
       required: true,
     },
+    Enabled: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
     JoinChannelID: {
       type: String,
       required: false,

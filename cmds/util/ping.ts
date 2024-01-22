@@ -25,7 +25,7 @@ export default class Ping extends Command {
 
   execute(interaction: ChatInputCommandInteraction) {
     const ping =
-      this.client.ws.ping > 1 ? "`Unavailable...`" : this.client.ws.ping;
+      this.client.ws.ping < 1 ? "`Unavailable...`" : this.client.ws.ping;
 
     return interaction.reply({
       embeds: [

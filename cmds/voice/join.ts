@@ -21,22 +21,11 @@ export default class JoinVoiceChannel extends Command {
       cooldown: 10,
       dm_permission: false,
       isDevCommand: false,
+      requiresVoice: true,
     });
   }
   execute(interaction: ChatInputCommandInteraction) {
     const member = interaction.member as GuildMember;
-    if (!member.voice.channel) {
-      return interaction.reply({
-        embeds: [
-          new EmbedBuilder({
-            title: `${this.client.user!.username} | Error`,
-            color: Colors.Red,
-            description: `> :no_entry_sign: You need to be in a voice channel to use this command!`,
-          }),
-        ],
-        ephemeral: true,
-      });
-    }
 
     const connection = getVoiceConnection(member.guild.id);
     if (connection) {
@@ -54,7 +43,7 @@ export default class JoinVoiceChannel extends Command {
       try {
         joinVoiceChannel({
           guildId: member.guild.id,
-          channelId: member.voice.channel.id,
+          channelId: member.voice.channel!.id,
           adapterCreator: member.guild.voiceAdapterCreator,
         });
 
@@ -62,7 +51,9 @@ export default class JoinVoiceChannel extends Command {
           embeds: [
             new EmbedBuilder({
               title: `${this.client.user!.username} | Voice`,
-              description: `> :white_check_mark: Successfully joined your voice channel! (<#${member.voice.channel.id}>)`,
+              description: `> :white_check_mark: Successfully joined your voice channel! (<#${
+                member.voice.channel!.id
+              }>)`,
               color: Colors.Green,
             }),
           ],

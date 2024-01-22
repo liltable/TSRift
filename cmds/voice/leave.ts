@@ -1,4 +1,5 @@
 import { getVoiceConnection } from "npm:@discordjs/voice";
+
 import Command from "../../classes/Command.ts";
 import Rift from "../../classes/Rift.ts";
 import Category from "../../enum/Category.ts";
@@ -21,24 +22,12 @@ export default class LeaveVoiceChannel extends Command {
       cooldown: 10,
       dm_permission: false,
       isDevCommand: false,
+      requiresVoice: true,
     });
   }
   execute(interaction: ChatInputCommandInteraction) {
     const connection = getVoiceConnection(interaction.guild!.id);
     const member = interaction.member as GuildMember;
-
-    if (!member.voice.channel) {
-      return interaction.reply({
-        embeds: [
-          new EmbedBuilder({
-            title: `${this.client.user!.username} | Error`,
-            color: Colors.Red,
-            description: `> :no_entry_sign: You need to be in a voice channel to use this command!`,
-          }),
-        ],
-        ephemeral: true,
-      });
-    }
 
     if (!connection)
       return interaction.reply({

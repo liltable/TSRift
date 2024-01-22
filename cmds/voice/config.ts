@@ -21,6 +21,23 @@ export default class SetupTempVCs extends Command {
       description: "Setup how Rift manages your temporary voice channels.",
       options: [
         {
+          name: "toggle",
+          description:
+            "Select whether or not you want to enable/disable the join-to-create feature.",
+          type: ApplicationCommandOptionType.String,
+          choices: [
+            {
+              name: "On",
+              value: "on",
+            },
+            {
+              name: "Off",
+              value: "off",
+            },
+          ],
+          required: false,
+        },
+        {
           name: "parent",
           description:
             "Select a parent channel to setup the temporary channels under.",
@@ -41,7 +58,7 @@ export default class SetupTempVCs extends Command {
       default_member_permissions: PermissionFlagsBits.ManageChannels,
       dm_permission: false,
       cooldown: 30,
-      isDevCommand: true,
+      isDevCommand: false,
     });
   }
   autocomplete(interaction: AutocompleteInteraction) {
@@ -88,12 +105,15 @@ export default class SetupTempVCs extends Command {
       //if there isn't one, create a filler one that we can actively update on the fly.
       GuildConfig = await TempVCConfig.create({
         GuildID: member.guild.id,
+        Enabled: false,
         JoinChannelID: null,
         JoinChannelParent: null,
       });
 
     const parentToSet = interaction.options.getString("parent");
     const channelToSet = interaction.options.getString("channel");
+    const toggle = interaction.options.getString("toggle");
+    type possibilities = "on" | "off";
 
     if (parentToSet) {
       GuildConfig.JoinChannelParent = parentToSet;
@@ -101,6 +121,19 @@ export default class SetupTempVCs extends Command {
 
     if (channelToSet) {
       GuildConfig.JoinChannelID = channelToSet;
+    }
+
+    if (toggle) {
+      //dumb type declaration so i could just autocomplete switch cases
+      //instead of typing them out bc they're annoying
+      switch (toggle as possibilities) {
+        case "on": {
+          GuildConfig.Enabled = true;
+        }
+        case "off": {
+          GuildConfig.Enabled = false;
+        }
+      }
     }
 
     try {
@@ -116,7 +149,11 @@ export default class SetupTempVCs extends Command {
         ],
       });
     }
-
+    embedDescription.push(
+      `> Join to Create is currently **${
+        GuildConfig.Enabled ? "enabled" : "disabled"
+      }**.`
+    );
     embedDescription.push(
       `> Your join channel is <#${GuildConfig.JoinChannelParent}>`
     );
