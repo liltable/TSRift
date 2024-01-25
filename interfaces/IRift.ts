@@ -13,4 +13,5 @@ export default interface IRift {
   voiceManager: Collection<string, string | null>;
   buttons?: Collection<string, Button>;
   cache?: Collection<string, any>;
+  sniped?: Collection<string, Collection<string, string>>;
 }

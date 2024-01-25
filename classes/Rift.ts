@@ -7,6 +7,7 @@ import Manager from "./Manager.ts";
 import * as Config from "../data/config.json" assert { type: "json" };
 import Command from "./Command.ts";
 import Button from "./Button.ts";
+import { GatewayIntentBits, Partials } from "npm:discord.js";
 
 export default class Rift extends Client implements IRift {
   config: IConfig;
@@ -17,8 +18,25 @@ export default class Rift extends Client implements IRift {
   buttons: Collection<string, Button>;
   cache: Collection<string, any>;
   voiceManager: Collection<string, string | null>;
+  sniped: Collection<string, Collection<string, string>>;
   constructor() {
-    super({ intents: 32767 });
+    super({
+      intents: [
+        GatewayIntentBits.DirectMessages,
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildInvites,
+        GatewayIntentBits.GuildMembers,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.MessageContent,
+        GatewayIntentBits.GuildVoiceStates,
+      ],
+      partials: [
+        Partials.Channel,
+        Partials.GuildMember,
+        Partials.User,
+        Partials.Message,
+      ],
+    });
 
     this.devMode = Deno.args.includes("--development");
     this.config = Config.default;
@@ -28,6 +46,7 @@ export default class Rift extends Client implements IRift {
     this.buttons = new Collection();
     this.cache = new Collection();
     this.voiceManager = new Collection();
+    this.sniped = new Collection();
   }
 
   async init() {
