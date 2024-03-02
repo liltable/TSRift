@@ -41,12 +41,17 @@ export default class BanFromVC extends Command {
     const guild = interaction.guild as Guild;
     const member = interaction.member as GuildMember;
 
+    if (!member.voice.channel)
+      return interaction.respond([
+        { name: `You need to be in a voice channel!`, value: "null" },
+      ]);
+
     guild.members.cache
       .filter(
         (target) =>
           target.user.id !== member.user.id &&
           !target.user.bot &&
-          target.voice.channel?.id == member.voice.channel!.id
+          target.voice.channel?.id == member.voice.channel?.id
       )
       .forEach((target) =>
         choices.push({

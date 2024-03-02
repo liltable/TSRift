@@ -10,7 +10,6 @@ import {
 import Command from "../../classes/Command.ts";
 import Rift from "../../classes/Rift.ts";
 import Category from "../../enum/Category.ts";
-import { GuildMember } from "npm:discord.js";
 
 export default class SnipeLatestMessage extends Command {
   constructor(client: Rift) {
@@ -94,6 +93,20 @@ export default class SnipeLatestMessage extends Command {
       });
 
     const snipedMessage = snipedMessages.get(target.user.id);
+
+    if (!snipedMessage)
+      return interaction.reply({
+        embeds: [
+          new EmbedBuilder({
+            title: `Snipe | ${
+              target.nickname || target.user.globalName || target.user.username
+            }`,
+            description: `There isn't a message to snipe!`,
+            color: Colors.Red,
+          }),
+        ],
+        ephemeral: true,
+      });
     return interaction.reply({
       embeds: [
         new EmbedBuilder({
